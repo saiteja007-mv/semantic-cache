@@ -1,0 +1,6 @@
+# Semantic Cache for LLM responses — fully cloud (OpenRouter), no local ML deps.
+streamlit>=1.33
+openai>=1.30
+numpy>=1.26
+python-dotenv>=1.0
+pytest>=8.0
