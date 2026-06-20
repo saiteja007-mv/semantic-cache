@@ -14,6 +14,8 @@
   </a>
 </p>
 
+https://github.com/user-attachments/assets/032ac3d2-c375-439d-9aa8-38f308d913e4
+
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white" alt="Python 3.12">
   <img src="https://img.shields.io/badge/Streamlit-FF4B4B?logo=streamlit&logoColor=white" alt="Streamlit">
