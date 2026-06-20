@@ -3,6 +3,15 @@ from __future__ import annotations
 
 import os
 
+try:
+    # Load a local .env (if present) so OPENROUTER_API_KEY from the README's
+    # `.env` option is picked up. Does not override variables already in the env.
+    from dotenv import load_dotenv
+
+    load_dotenv()
+except ImportError:  # python-dotenv is optional at runtime
+    pass
+
 BASE_URL = "https://openrouter.ai/api/v1"
 _HEADERS = {
     "HTTP-Referer": "https://github.com/saiteja007-mv/semantic-cache",

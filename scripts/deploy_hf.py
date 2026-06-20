@@ -1,6 +1,7 @@
 """Deploy this app to Hugging Face Spaces (Docker SDK) and print the live URL.
 
 Requires:
+  * `pip install -r requirements-deploy.txt` (huggingface_hub — deploy-only dep)
   * a Hugging Face token (cached via `huggingface-cli login`, or HF_TOKEN env)
   * OPENROUTER_API_KEY (read from env or .streamlit/secrets.toml) — set as a
     Space secret so the deployed app can call OpenRouter.

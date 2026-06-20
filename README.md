@@ -96,11 +96,13 @@ One command — creates the Space (Docker SDK), sets the key as a Space secret, 
 uploads the app:
 
 ```powershell
+pip install -r requirements-deploy.txt   # huggingface_hub (deploy-only)
 python scripts/deploy_hf.py --space-name semantic-cache
 ```
 
 (Needs a Hugging Face token via `huggingface-cli login` or `HF_TOKEN`.) The
-included `Dockerfile` runs Streamlit on port 7860.
+included `Dockerfile` runs Streamlit on port 7860. `huggingface_hub` is kept in a
+separate `requirements-deploy.txt` so the runtime image stays lean.
 
 ## 🔧 How it works
 

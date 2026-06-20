@@ -1,0 +1,4 @@
+# Extra dependency for scripts/deploy_hf.py (Hugging Face Spaces deploy).
+# Kept out of requirements.txt so the runtime / Docker image stays lean —
+# the app itself never imports huggingface_hub.
+huggingface_hub>=0.23
