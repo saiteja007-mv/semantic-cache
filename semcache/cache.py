@@ -141,15 +141,26 @@ class SemanticCache:
         return None
 
     def put(self, prompt: str, response: str) -> None:
-        emb = self.embed_fn(prompt)
+        key = _norm_key(prompt)
         now = self._now()
+        existing = self._exact.get(key)
+        if existing is not None:
+            # Same prompt re-seen: refresh in place — no duplicate entry, no re-embed.
+            existing.response = response
+            existing.created_at = now
+            existing.last_used = now
+            return
+        emb = self.embed_fn(prompt)
         entry = CacheEntry(prompt, emb, response, created_at=now, last_used=now)
         self._entries.append(entry)
-        self._exact[_norm_key(prompt)] = entry
+        self._exact[key] = entry
         if len(self._entries) > self.max_size:
             lru = min(self._entries, key=lambda e: e.last_used)
             self._entries.remove(lru)
-            self._exact.pop(_norm_key(lru.prompt), None)
+            lru_key = _norm_key(lru.prompt)
+            # Only drop the exact mapping if it still points to the evicted entry.
+            if self._exact.get(lru_key) is lru:
+                self._exact.pop(lru_key, None)
 
 
 def ask(

@@ -67,6 +67,38 @@ def test_ttl_expiry():
     assert len(c) == 0
 
 
+def test_duplicate_put_updates_in_place_no_extra_embed():
+    calls = {"n": 0}
+
+    def counting_embed(text):
+        calls["n"] += 1
+        return fake_embed(text)
+
+    c = SemanticCache(threshold=0.85, max_size=1, embed_fn=counting_embed)
+    c.put("x", "old")          # embeds once
+    c.put("x", "new")          # same key -> update in place: no duplicate, no embed
+    assert len(c) == 1
+    r = c.lookup("x")          # exact hit -> no embed
+    assert r is not None and r.exact and r.entry.response == "new"
+    assert calls["n"] == 1
+
+
+def test_exact_hit_survives_when_embeddings_degraded():
+    state = {"allow": True}
+
+    def embed(text):
+        if not state["allow"]:
+            raise RuntimeError("embedding unavailable")
+        return fake_embed(text)
+
+    c = SemanticCache(threshold=0.85, max_size=1, embed_fn=embed)
+    c.put("x", "old")
+    c.put("x", "new")
+    state["allow"] = False      # embeddings now down
+    r = c.lookup("x")           # must still exact-hit without embedding
+    assert r is not None and r.exact and r.entry.response == "new"
+
+
 class CountingLLM:
     def __init__(self):
         self.calls = 0
