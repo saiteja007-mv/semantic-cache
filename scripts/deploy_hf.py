@@ -23,11 +23,11 @@ SPACE_README = """---
 title: Semantic Cache for LLMs
 emoji: ⚡
 colorFrom: yellow
-colorTo: orange
+colorTo: red
 sdk: docker
 app_port: 7860
 pinned: false
-short_description: Embedding-keyed LLM response cache — semantic hits skip the call
+short_description: Embedding-keyed LLM response cache
 ---
 
 # Semantic Cache for LLM Responses
